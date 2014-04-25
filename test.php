@@ -4,13 +4,14 @@ require __DIR__ . '/vendor/autoload.php';
 
 $loader = new Twig_Loader_Filesystem(__DIR__.'/models');
 $twig = new Twig_Environment($loader, array(
+    'autoescape' => false, // we don't need this
     'cache' => __DIR__.'/compiled',
 //    'cache' => false,
 ));
 
 // turn the security up to 11
 $tags       = ['if', 'set'];
-$filters    = ['escape'];
+$filters    = [];
 $functions  = [];
 $methods    = [];
 $properties = [];
@@ -18,13 +19,8 @@ $policy = new Twig_Sandbox_SecurityPolicy($tags, $filters, $methods, $properties
 $sandbox = new Twig_Extension_Sandbox($policy, true);
 $twig->addExtension($sandbox);
 
-// better compile?
-$optimizer = new Twig_Extension_Optimizer(Twig_NodeVisitor_Optimizer::OPTIMIZE_ALL);
-$twig->addExtension($optimizer);
-
-$models = glob(__DIR__.'/models/cc/approval-probability/*/*.twig');
-
-foreach ($models as $model) {
+// run all (increase loop for time trials):
+foreach (glob(__DIR__.'/models/cc/approval-probability/*/*.twig') as $model) {
     $template = str_replace(__DIR__.'/models/', '', $model);
     $i = 5;
     while ($i--) {
@@ -37,32 +33,8 @@ foreach ($models as $model) {
     }
 }
 
-//echo $twig->render('cc/approval-probability/card1/797d40c5468f.twig', array(
+// Manual run:
+//echo trim($twig->render('cc/approval-probability/readable/1ad2da9.twig', array(
 //    'score' => 600,
 //    'age'   => 22,
-//)) . "\n";
-//echo $twig->render('cc/approval-probability/capone.twig', array(
-//    'score' => 400,
-//    'age'   => 17,
-//)) . "\n";
-//
-//echo $twig->render('cc/approval-probability/capone.twig', array(
-//    'score' => 800,
-//    'age'   => 22,
-//)) . "\n";
-//
-//
-//echo $twig->render('cc/approval-probability/capone-depthtree.twig', array(
-//    'score' => 600,
-//    'age'   => 22,
-//)) . "\n";
-//
-//echo $twig->render('cc/approval-probability/capone-depthtree.twig', array(
-//    'score' => 400,
-//    'age'   => 17,
-//)) . "\n";
-//
-//echo $twig->render('cc/approval-probability/capone-depthtree.twig', array(
-//    'score' => 800,
-//    'age'   => 22,
-//)) . "\n";
+//))) . "\n";

@@ -1,0 +1,2 @@
+{# ctree #}
+{% set probability = 0 %}{% if score < 450 %}{% if age < 18 %}.1{% elseif score < 40 %}1{% else %}.5{% endif %}{% elseif score < 650 %}{% if age < 18 %}.2{% elseif score < 40 %}2{% else %}2.5{% endif %}{% else %}{% if age < 18 %}0{% elseif score < 40 %}10{% else %}50{% endif %}{% endif %}

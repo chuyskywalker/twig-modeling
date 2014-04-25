@@ -1,0 +1,2 @@
+{# ctree, boosted, from blah blah blah #}
+{% set probability = 0 %}{% if score < 450 %}{% set probability = probability + 0.1 %}{% elseif score < 650 %}{% set probability = probability + 0.5 %}{% else %}{% set probability = probability + 1.0 %}{% endif %}{% if age < 18 %}{% set probability = probability - 0.1 %}{% elseif score < 40 %}{% set probability = probability + 1.0 %}{% else %}{% set probability = probability + 0.5 %}{% endif %}{{ probability }}
